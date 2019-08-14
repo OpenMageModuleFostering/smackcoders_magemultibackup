@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Smackcoders_Magemultibackup>
+      <version>0.1.0</version>
+    </Smackcoders_Magemultibackup>
+  </modules>
+  <global>
+   <models>
+            <magemultibackup>
+                <class>Smackcoders_Magemultibackup_Model</class>
+                <resourceModel>magemultibackup_mysql4</resourceModel>
+            </magemultibackup>
+            <magemultibackup_mysql4>
+                <class>Smackcoders_Magemultibackup_Model_Mysql4</class>
+                <entities>
+                    <magemultibackup>
+                        <table>magemultibackup</table>
+                    </magemultibackup>
+		   <magemultibackupsettings>
+                        <table>magemultibackupsettings</table>
+                    </magemultibackupsettings>
+                   <magemultibackupscheduler>
+                        <table>magemultibackupscheduler</table>
+                    </magemultibackupscheduler>
+
+                </entities>
+            </magemultibackup_mysql4>
+        </models>
+	  <resources>
+            <magemultibackup_setup>
+                <setup>
+                    <module>Smackcoders_Magemultibackup</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </magemultibackup_setup>
+            <magemultibackup_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </magemultibackup_write>
+            <magemultibackup_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </magemultibackup_read>
+        </resources>
+    <helpers>
+      <magemultibackup>
+        <class>Smackcoders_Magemultibackup_Helper</class>
+      </magemultibackup>
+    </helpers>
+	<blocks>
+	  <magemultibackup>
+		<class>Smackcoders_Magemultibackup_Block</class>
+	  </magemultibackup>
+	</blocks>
+
+  </global>
+    <stores>
+        <default>
+            <web>
+                <routers>
+                    <standard>
+                        <area>frontend</area>
+                        <class>Smackcoders_Magemultibackup_Controller_Router_Standard</class>
+                    </standard>
+                </routers>
+            </web>
+        </default>
+    </stores>
+  <admin>
+	<routers>
+	  <magemultibackup>
+	    <use>admin</use>
+		<args>
+		  <module>Smackcoders_Magemultibackup</module>
+		  <frontName>magemultibackup</frontName>
+		</args>
+	  </magemultibackup>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <magemultibackup module="magemultibackup">
+		<title>Multi Backup</title>
+		<sort_order>100</sort_order>
+		<children>
+		 <magemultibackuplogs module="magemultibackup">
+                        <title>Reports</title>
+                        <sort_order>2</sort_order>
+                        <action>magemultibackup/adminhtml_magemultibackup</action>
+                  </magemultibackuplogs>
+                 <magemultibackupremove module="magemultibackup">
+                        <title>Backup / Restore</title>
+                        <sort_order>1</sort_order>
+                        <action>magemultibackup/adminhtml_magemultibackupmanager</action>
+                  </magemultibackupremove>
+                 <magemultibackupsettings module="magemultibackup">
+                        <title>Settings</title>
+                        <sort_order>3</sort_order>
+                        <action>magemultibackup/adminhtml_settings</action>
+                  </magemultibackupsettings>
+		</children>
+	  </magemultibackup>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<magemultibackup translate="title" module="magemultibackup">
+			  <title>Magemultibackup</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <magemultibackupbackend translate="title">
+			<title>DB Backup</title>
+		  </magemultibackupbackend>
+			  </children>
+			</magemultibackup>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<magemultibackup>
+		  <file>magemultibackup.xml</file>
+		</magemultibackup>
+	  </updates>
+	</layout>
+  </adminhtml>
+<crontab>
+       <jobs>
+           <magemultibackupcron>
+                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <run><model>magemultibackup/autoschedule::scheduledBackup</model></run>
+            </magemultibackupcron>
+        </jobs>
+</crontab>
+</config> 

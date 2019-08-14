@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+<!--this is where manual backup page loads-->
+  <magemultibackup_adminhtml_magemultibackupbackend_index>
+	<reference name="content">
+	  <block type="magemultibackup/adminhtml_magemultibackupbackend" name="magemultibackupbackend" template="magemultibackup/magemultibackupbackend.phtml"/>
+	</reference>
+  </magemultibackup_adminhtml_magemultibackupbackend_index>
+
+<!--this is where logs logs-->
+ <magemultibackup_adminhtml_magemultibackup_index>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+        </reference>
+        <reference name="content">
+            <block type="magemultibackup/adminhtml_magemultibackup" name="magemultibackup" />
+        </reference>
+    </magemultibackup_adminhtml_magemultibackup_index>
+
+
+<!--local backup manager loads-->
+ <magemultibackup_adminhtml_magemultibackupmanager_index>
+        <reference name="content">
+            <block type="magemultibackup/adminhtml_magemultibackupmanager" name="magemultibackupmanger" />
+        </reference>
+    </magemultibackup_adminhtml_magemultibackupmanager_index>
+
+
+<!--ftp backup manager loads-->
+ <magemultibackup_adminhtml_magemultibackupftpmanager_index>
+        <reference name="content">
+            <block type="magemultibackup/adminhtml_magemultibackupftpmanager" name="magemultibackupftpmanger" />
+        </reference>
+    </magemultibackup_adminhtml_magemultibackupftpmanager_index>
+<!--<magemultibackup_adminhtml_magemultibackup_grid>
+  <reference name="content">
+                <action method="addJs"><script>mage/adminhtml/grid.js</script></action>
+
+</reference>
+</magemultibackup_adminhtml_magemultibackup_grid>-->
+
+<!--    <magemultibackup_adminhtml_settings_index>
+        <reference name="content">
+            <block type="magemultibackup/adminhtml_settings" name="settings" />
+        </reference>
+    </magemultibackup_adminhtml_settings_index>-->
+
+
+</layout>

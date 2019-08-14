@@ -1,0 +1,28 @@
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?=$this->__('Backup')?></h3></td>
+            <td class="a-right">
+                <button onclick="editForm.submit()" class="scalable save" type="button"><span>Backup</span></button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    <form id="edit_form" name="edit_form" method="post" action="<?=$this->getUrl('*/*/post')?>">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"/>
+<table cellspacing = "15">
+<tr>
+<td>
+<input type="checkbox" name="transfer[]" value="sameserver"></td><td>Backup in Server(Local)</td></tr>
+
+<tr>
+<td>
+<input type="checkbox" name="transfer[]" value="ftp"></td><td>Backup to FTP</td></tr>
+
+
+</table></form>
+</div><!--closes div entry-edit-->
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+</script>

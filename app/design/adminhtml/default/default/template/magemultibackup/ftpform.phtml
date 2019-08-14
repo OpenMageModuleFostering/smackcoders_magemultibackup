@@ -1,0 +1,245 @@
+<script type="text/javascript">
+window.onload = function(){
+displayNeededFields('local',4);
+displayNeedediFields('ftp',8);
+}
+function toggleCollapse(formid){
+	if((document.getElementById(formid).style.display) == 'none'){
+		document.getElementById(formid+"_link").className = "open";
+		document.getElementById(formid).style.display = 'block';
+	}
+	else{
+		document.getElementById(formid+"_link").className = "";
+		document.getElementById(formid).style.display = 'none';
+	}
+showSchedulerFields("local","localscheduler",3,4);
+showSchedulerFields("ftp","ftpscheduler",7,8);
+}
+
+function displayNeededFields(id,totIds){
+	var exactid;
+	if((document.getElementById(id).value) == 1){
+		for(var t=1;t<=totIds;t++){
+			exactid = id+'_row'+t;
+			document.getElementById(exactid).style.display = '';
+		}
+
+showSchedulerFields("local","localscheduler",3,4);
+showSchedulerFields("ftp","ftpscheduler",7,8);
+	}
+	else{
+		for(var t=1;t<=totIds;t++){
+			exactid = id+'_row'+t;
+			document.getElementById(exactid).style.display = 'none';
+		}
+	}
+
+}
+function showSchedulerFields(formtype,selectid,fromrowid,torowid){
+	var hideelementid;
+	if((document.getElementById(selectid).value) == 1){
+		for(var w = fromrowid;w<=torowid;w++){
+			hideelementid = formtype+'_row'+w;
+			document.getElementById(hideelementid).style.display = '';
+		}
+	}
+	else{
+		for(var w = fromrowid;w<=torowid;w++){
+			hideelementid = formtype+'_row'+w;
+			document.getElementById(hideelementid).style.display = 'none';
+		}
+	}
+}
+</script>
+<?php $formValues = $this->getFormValues();
+$ftphour = $ftpmin = $ftpsec = $localhour = $localmin = $localsec = 0;
+list($ftphour,$ftpmin,$ftpsec) = explode(",",$formValues['ftpscheduletime']);
+list($localhour,$localmin,$localsec) = explode(",",$formValues['localscheduletime']);
+//print '<pre>';print_r ($formValues);die; ?>
+ 
+<div class="entry-edit">
+    <div class="entry-edit-head collapseable">
+        <a onclick="toggleCollapse('magemultibackup_localform'); return false;" href="#" id="magemultibackup_localform_link" class="">Local Backup</a>
+    <div class="form-buttons"></div>
+</div>
+    <div id="magemultibackup_localform" class="fieldset " style="display:none;">
+    <div class="hor-scroll">
+       <table cellspacing="0" class="form-list">
+            <tbody>
+                <tr>
+        <td class="label"><label for="local">Enabled</label></td>
+        <td class="value">
+        <select class=" select" name="local" id="local" onchange = "displayNeededFields('local',4)">
+		<option <?php if($formValues['local']) { ?> selected="selected" <?php } ?> value="1">Yes</option>
+		<option value="0" <?php if(!$formValues['local']) { ?> selected="selected" <?php } ?> >No</option>
+	</select>
+	<small>Store in local server.</small>            
+	</td>
+    </tr>
+<tr id = "local_row1" <?php if(!$formValues['local']) { ?> style="display:none;"<?php } ?>>
+        <td class="label"><label for="localpath">Path </label></td>
+    <td class="value">
+        <input type="text" class=" input-text" tabindex="1" value="<?php echo $formValues['localpath']?>" name="localpath" id="localpath">
+<small>Path must be writable and in magento store's root directory</small>            </td>
+    </tr>
+<tr id ="local_row2" <?php if(!$formValues['local']) { ?> style="display:none;"<?php } ?> >
+        <td class="label"><label for="localscheduler">Auto Schedule</label></td>
+    <td class="value">
+        <select class=" select" name="localscheduler" id="localscheduler" onchange='showSchedulerFields("local","localscheduler",3,4)'>
+<option <?php if($formValues['localscheduler']){ ?>selected="selected" <?php } ?>value="1">Yes</option>
+<option value="0" <?php if(!$formValues['localscheduler']){ ?>selected="selected" <?php } ?> >No</option>
+</select>
+<small></small>            </td>
+    </tr>
+<tr id = "local_row3"  <?php if(!$formValues['local']) { ?> style="display:none;"<?php } ?> >
+        <td class="label"><label for="localscheduletime">Time</label></td>
+    <td class="value">
+        <input type="hidden" id="localscheduletime"><select style="width:40px" class=" select" type="time" tabindex="1" name="localscheduletime[]">
+	<?php for($i=0;$i<24;$i++){ ?>
+<option value ='<?php echo $i; ?>' <?php if($localhour == $i){ ?> selected="selected" <?php } ?>><?php echo $i; ?></option>
+<?php } ?>
+
+</select>
+&nbsp;:&nbsp;<select style="width:40px" class=" select" type="time" tabindex="1" readonly="" onchange="" onclick="" name="localscheduletime[]">
+<?php for($i=0;$i<60;$i++){ ?>
+<option value='<?php echo $i; ?>' <?php if($localmin == $i) { ?> selected='selected' <?php } ?> ><?php echo $i ?></option> <?php } ?>
+
+</select>
+&nbsp;:&nbsp;<select style="width:40px" class=" select" type="time" tabindex="1" readonly="" onchange="" onclick="" name="localscheduletime[]">
+<?php for($i=0;$i<60;$i++){ ?>
+<option value='<?php echo $i; ?>' <?php if($localsec == $i) { ?> selected='selected' <?php } ?> ><?php echo $i ?></option> <?php } ?>
+
+       </select>            
+      </td>
+    </tr>
+<tr id = "local_row4"  <?php if(!$formValues['local']) { ?> style="display:none;"<?php } ?> >
+        <td class="label"><label for="localschedulefrequency">Frequency</label></td>
+    <td class="value">
+        <select class=" select" style="width:100px;" name="localschedulefrequency" id="localschedulefrequency">
+<option <?php if($formValues['localschedulefrequency'] == "D"){ ?>selected="selected" <?php } ?>value="D">Daily</option>
+<option <?php if($formValues['localschedulefrequency'] == "W"){ ?>selected="selected" <?php } ?> value="W">Weakly</option>
+<option <?php if($formValues['localschedulefrequency'] == "M"){ ?>selected="selected" <?php } ?> value="M">Monthly</option>
+</select>            </td>
+    </tr>
+            </tbody>
+        </table>
+            </div>
+        </div>
+</div>
+<!--local form exits -->
+<div class="entry-edit">
+    <div class="entry-edit-head collapseable">
+	<a onclick="toggleCollapse('magemultibackup_ftpform'); return false;" href="#" id="magemultibackup_ftpform_link" class="">Ftp Backup</a>
+    <div class="form-buttons"></div>
+</div>
+    <div id="magemultibackup_ftpform" class="fieldset " style="display:none;">
+    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list">
+            <tbody>
+                <tr>
+        <td class="label"><label for="ftp">Enabled</label></td>
+    <td class="value">
+        <select class=" select" name="ftp" id="ftp" onchange = "displayNeededFields('ftp',8)" >
+<option <?php if($formValues['ftp']) {?>selected="selected" <?php } ?>value="1">Yes</option>
+<option value="0" <?php if(!($formValues['ftp'])) {?> selected="selected" <?php } ?> >No</option>
+</select>
+<small>Store in FTP server.</small>            </td>
+    </tr>
+<tr id='ftp_row1' <?php if(!($formValues['ftp'])) {?> style='display:none;' <?php } ?> >
+        <td class="label"><label for="ftpserver">FTP Server </label></td>
+    <td class="value">
+        <input type="text" class=" input-text" tabindex="1" value='<?php echo $formValues['ftpserver']; ?>' name="ftpserver" id="ftpserver">
+<small>FTP Server Hostname.</small>            </td>
+    </tr>
+<tr id='ftp_row2' <?php if(!($formValues['ftp'])) {?> style='display:none;' <?php } ?> >
+        <td class="label"><label for="ftpuser">Username </label></td>
+    <td class="value">
+        <input type="text" class=" input-text" tabindex="1" value='<?php echo $formValues['ftpuser']; ?>' name="ftpuser" id="ftpuser">
+<small>FTP's Username.</small>            </td>
+    </tr>
+<tr id='ftp_row3'  <?php if(!($formValues['ftp'])) {?> style='display:none;' <?php } ?> >
+        <td class="label"><label for="ftppassword">Password </label></td>
+    <td class="value">
+        <input type="text" class=" input-text" tabindex="1" value='<?php echo $formValues['ftppassword']?>' name="ftppassword" id="ftppassword">
+<small>FTP's Password.</small>            </td>
+    </tr>
+<tr id='ftp_row4' <?php if(!($formValues['ftp'])) {?> style='display:none;' <?php } ?> >
+        <td class="label"><label for="ftppath">Path </label></td>
+    <td class="value">
+        <input type="text" class=" input-text" tabindex="1" value='<?php echo $formValues['ftppath']?>' name="ftppath" id="ftppath">
+<small>FTP's Path must be writable.</small>            </td>
+    </tr>
+<tr id='ftp_row5' <?php if(!($formValues['ftp'])) {?> style='display:none;' <?php } ?> >
+        <td class="label"><label for="ftpport">Port </label></td>
+    <td class="value">
+        <input type="text" class=" input-text" tabindex="1" value='<?php echo $formValues['ftpport']?>' name="ftpport" id="ftpport">            </td>
+    </tr>
+<tr id='ftp_row6' <?php if(!($formValues['ftp'])) {?> style='display:none;' <?php } ?> >
+        <td class="label"><label for="ftpscheduler">Auto Schedule</label></td>
+    <td class="value">
+        <select class=" select" name="ftpscheduler" id="ftpscheduler" onchange='showSchedulerFields("ftp","ftpscheduler",7,8)' >
+<option value="1" <?php if($formValues['ftpscheduler']){ ?> selected="selected" <?php } ?>>Yes</option>
+<option <?php if(!$formValues['ftpscheduler']){ ?> selected="selected" <?php } ?> value="0">No</option>
+</select>
+<small></small>            </td>
+    </tr>
+<tr id='ftp_row7' <?php if($formValues['ftpscheduler']){ ?> style="display:none;" <?php } ?>>
+        <td class="label"><label for="ftpscheduletime">Time</label></td>
+    <td class="value">
+        <input type="hidden" id="ftpscheduletime">
+<select style="width:40px" type="time" tabindex="1" readonly="" onchange="" onclick="" class="select" name="ftpscheduletime[]">
+<?php for($i=0;$i<24;$i++){ ?>
+<option value ='<?php echo $i; ?>' <?php if($ftphour == $i){ ?> selected="selected" <?php } ?>><?php echo $i; ?></option>
+<?php } ?>
+</select>
+&nbsp;:&nbsp;<select style="width:40px" type="time" tabindex="1" readonly="" onchange="" onclick="" class="select" name="ftpscheduletime[]">
+<?php for($i=0;$i<60;$i++){ ?>
+<option value='<?php echo $i; ?>' <?php if($ftpmin == $i) { ?> selected='selected' <?php } ?> ><?php echo $i ?></option> <?php } ?>
+</select>
+&nbsp;:&nbsp;<select style="width:40px" type="time" tabindex="1" readonly="" onchange="" onclick="" class=" select" name="ftpscheduletime[]">
+<?php for($i=0;$i<60;$i++){ ?>
+<option value='<?php echo $i; ?>' <?php if($ftpsec == $i) { ?> selected='selected' <?php } ?> ><?php echo $i ?></option> <?php } ?>
+</select>
+
+	</select>
+            </td>
+    </tr>
+<tr id='ftp_row8'>
+<td class="label"><label for="ftpschedulefrequency">Frequency</label></td>
+    <td class="value">
+        <select class=" select" style="width:100px;" name="ftpschedulefrequency" id="ftpschedulefrequency">
+<option <?php if($formValues['ftpschedulefrequency'] == "D"){ ?>selected="selected" <?php } ?>value="D">Daily</option>
+<option <?php if($formValues['ftpschedulefrequency'] == "W"){ ?>selected="selected" <?php } ?> value="W">Weakly</option>
+<option <?php if($formValues['ftpschedulefrequency'] == "M"){ ?>selected="selected" <?php } ?> value="M">Monthly</option>
+</select>            </td>
+
+    </tr>
+            </tbody>
+        </table>
+            </div>
+        </div>
+</div>
+
+
+<!--rollback -->
+<div class="entry-edit">
+    <div class="entry-edit-head collapseable">
+	<a id="magemultibackup_rollback_link" href="#" onclick="toggleCollapse('magemultibackup_rollback'); return false;">Maintenance Mode</a>
+    <div class="form-buttons"></div>
+    </div>
+    <div class="fieldset " id="magemultibackup_rollback" style="display:none;">
+    <div class="hor-scroll">
+	<table class="form-list" cellspacing="0">
+	<tbody>
+	<tr id="ftp_row1">
+        <td class="label"><label for="maintenancehtml">Maintenance Page Template</label></td>
+    <td class="value">
+	<textarea id="maintenancehtml" class="textarea" cols="55" rows="2" name="maintenancehtml" style="width:500px;"><?php echo $formValues['maintenancehtml'] ?></textarea>
+          </td>
+
+    </tr>
+	</tbody>
+	</table>
+            </div>
+        </div>
+</div>
