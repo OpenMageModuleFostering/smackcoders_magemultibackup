@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Smackcoders_Magemultibackup",
+    "name": "OpenMageModuleFostering\/Smackcoders_Magemultibackup",
     "type": "magento-module",
     "license": "OSL---3",
     "homepage": "",
     "description": "Mage Multi Backup is a Multi backup and rollback tool allows you to backup your magento db in both local and ftp in a Multi way.",
     "authors": [
-    {
-        "name": "Smackcoders",
-        "email": "projects@smackcoders.com"
-    }
-],
+        {
+            "name": "Smackcoders",
+            "email": "projects@smackcoders.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
